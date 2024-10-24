@@ -7,34 +7,34 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tb_vaga_x_freelance")
-public class CadastroVagaXFreeLance {
+@Table(name = "tb_contrato")
+public class Contrato {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID idVagaFreelace;
+    private UUID idContrato;
 
     private String idFreelance;
-    private String IdVaga;
-    private Date   dataInicioContrato;
-    private Date   dateFimContrato;
+    private String idVaga;
+    private Date dataInicioContrato;
+    private Date dateFimContrato;
 
-    public CadastroVagaXFreeLance () {}
+    public Contrato() {}
 
-    public CadastroVagaXFreeLance(UUID idVagaFreelace, String idFreelance, String idVaga, Date dataInicioContrato, Date dateFimContrato) {
-        this.idVagaFreelace = idVagaFreelace;
+    public Contrato(UUID idContrato, String idFreelance, String idVaga, Date dataInicioContrato, Date dateFimContrato) {
+        this.idContrato = idContrato;
         this.idFreelance = idFreelance;
-        IdVaga = idVaga;
+        this.idVaga = idVaga;
         this.dataInicioContrato = dataInicioContrato;
         this.dateFimContrato = dateFimContrato;
     }
 
-    public UUID getIdVagaFreelace() {
-        return idVagaFreelace;
+    public UUID getIdContrato() {
+        return idContrato;
     }
 
-    public void setIdVagaFreelace(UUID idVagaFreelace) {
-        this.idVagaFreelace = idVagaFreelace;
+    public void setIdContrato(UUID idContrato) {
+        this.idContrato = idContrato;
     }
 
     public String getIdFreelance() {
@@ -46,11 +46,11 @@ public class CadastroVagaXFreeLance {
     }
 
     public String getIdVaga() {
-        return IdVaga;
+        return idVaga;
     }
 
     public void setIdVaga(String idVaga) {
-        IdVaga = idVaga;
+        this.idVaga = idVaga;
     }
 
     public Date getDataInicioContrato() {
@@ -70,26 +70,27 @@ public class CadastroVagaXFreeLance {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Contrato contrato = (Contrato) o;
+        return Objects.equals(idContrato, contrato.idContrato);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(idContrato);
+    }
+
+    @Override
     public String toString() {
-        return "CadastroVagaXFreeLance{" +
-                "idVagaFreelace=" + idVagaFreelace +
+        return "Contrato{" +
+                "idContrato=" + idContrato +
                 ", idFreelance='" + idFreelance + '\'' +
-                ", IdVaga='" + IdVaga + '\'' +
+                ", idVaga='" + idVaga + '\'' +
                 ", dataInicioContrato=" + dataInicioContrato +
                 ", dateFimContrato=" + dateFimContrato +
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CadastroVagaXFreeLance that = (CadastroVagaXFreeLance) o;
-        return Objects.equals(idVagaFreelace, that.idVagaFreelace);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(idVagaFreelace);
-    }
 }
