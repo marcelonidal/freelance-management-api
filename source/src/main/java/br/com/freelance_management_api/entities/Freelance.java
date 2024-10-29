@@ -1,14 +1,12 @@
-package br.com.freelance_management_api.freelance_management_api.entities;
+package br.com.freelance_management_api.entities;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_cadastrofreelance")
-public class CadastroFreeLance {
+public class Freelance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -16,22 +14,25 @@ public class CadastroFreeLance {
 
     private String nome;
     private String eMail;
-    private String tecnologia;
-    private Date   dataDisponivel;
+    @ElementCollection
+    @CollectionTable(name = "freelance_tecnologias", joinColumns = @JoinColumn(name = "freelance_id"))
+    @Column(name = "tecnologia")
+    private Set<String> tecnologias = new HashSet<>();
     private String enderecoResidencia;
-    private int    numeroResidencia;
+    private int numeroResidencia;
     private String complementoEndereco;
-    private int    qtdAnosExperiencia;
+    private int qtdAnosExperiencia;
     private Double valorHora;
 
-    public CadastroFreeLance() {}
+    public Freelance() {
+    }
 
-    public CadastroFreeLance(UUID idFreelance, String nome, String eMail, String tecnologia, Date dataDisponivel, String enderecoResidencia, int numeroResidencia, String complementoEndereco, int qtdAnosExperiencia, Double valorHora) {
+    public Freelance(UUID idFreelance, String nome, String eMail, Set<String> tecnologias, String enderecoResidencia,
+                     int numeroResidencia, String complementoEndereco, int qtdAnosExperiencia, Double valorHora) {
         this.idFreelance = idFreelance;
         this.nome = nome;
         this.eMail = eMail;
-        this.tecnologia = tecnologia;
-        this.dataDisponivel = dataDisponivel;
+        this.tecnologias = tecnologias;
         this.enderecoResidencia = enderecoResidencia;
         this.numeroResidencia = numeroResidencia;
         this.complementoEndereco = complementoEndereco;
@@ -63,20 +64,12 @@ public class CadastroFreeLance {
         this.eMail = eMail;
     }
 
-    public String getTecnologia() {
-        return tecnologia;
+    public Set<String> getTecnologias() {
+        return tecnologias;
     }
 
-    public void setTecnologia(String tecnologia) {
-        this.tecnologia = tecnologia;
-    }
-
-    public Date getDataDisponivel() {
-        return dataDisponivel;
-    }
-
-    public void setDataDisponivel(Date dataDisponivel) {
-        this.dataDisponivel = dataDisponivel;
+    public void setTecnologias(Set<String> tecnologias) {
+        this.tecnologias = tecnologias;
     }
 
     public String getEnderecoResidencia() {
@@ -123,8 +116,8 @@ public class CadastroFreeLance {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CadastroFreeLance that = (CadastroFreeLance) o;
-        return Objects.equals(idFreelance, that.idFreelance);
+        Freelance freeLance = (Freelance) o;
+        return Objects.equals(idFreelance, freeLance.idFreelance);
     }
 
     @Override
@@ -134,12 +127,11 @@ public class CadastroFreeLance {
 
     @Override
     public String toString() {
-        return "CadastroFreeLance{" +
+        return "Freelance{" +
                 "idFreelance=" + idFreelance +
                 ", nome='" + nome + '\'' +
                 ", eMail='" + eMail + '\'' +
-                ", tecnologia='" + tecnologia + '\'' +
-                ", dataDisponivel=" + dataDisponivel +
+                ", tecnologias=" + tecnologias +
                 ", enderecoResidencia='" + enderecoResidencia + '\'' +
                 ", numeroResidencia=" + numeroResidencia +
                 ", complementoEndereco='" + complementoEndereco + '\'' +
@@ -147,4 +139,5 @@ public class CadastroFreeLance {
                 ", valorHora=" + valorHora +
                 '}';
     }
+
 }

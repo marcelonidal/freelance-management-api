@@ -1,4 +1,4 @@
-package br.com.freelance_management_api.freelance_management_api;
+package br.com.freelance_management_api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,14 +1,13 @@
-package br.com.freelance_management_api.freelance_management_api.entities;
+package br.com.freelance_management_api.entities;
 
 
 import jakarta.persistence.*;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_cadastroprojeto")
-public class CadastroProjeto {
+public class Projeto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -18,20 +17,27 @@ public class CadastroProjeto {
     private String tempoEmHoras;
     private String empresaContratanteProjeto;
     private String paisProjeto;
-    private String tecnologiaProjeto;
+    @ElementCollection
+    @CollectionTable(name = "projeto_tecnologias", joinColumns = @JoinColumn(name = "projeto_id"))
+    @Column(name = "tecnologia")
+    private Set<String> tecnologias = new HashSet<>();
+    private String emailContato;
     private Boolean cobreCustoFreelance;
     private Double valorCustoPago;
     private Double valorHoraPago;
 
-    public CadastroProjeto (){}
+    public Projeto() {
+    }
 
-    public CadastroProjeto(UUID idProjeto, String nomeProjeto, String tempoEmHoras, String empresaContratanteProjeto, String paisProjeto, String tecnologiaProjeto, Boolean cobreCustoFreelance, Double valorCustoPago, Double valorHoraPago) {
+    public Projeto(UUID idProjeto, String nomeProjeto, String tempoEmHoras, String empresaContratanteProjeto, String paisProjeto, Set<String> tecnologias,
+                   String emailContato, Boolean cobreCustoFreelance, Double valorCustoPago, Double valorHoraPago) {
         this.idProjeto = idProjeto;
         this.nomeProjeto = nomeProjeto;
         this.tempoEmHoras = tempoEmHoras;
         this.empresaContratanteProjeto = empresaContratanteProjeto;
         this.paisProjeto = paisProjeto;
-        this.tecnologiaProjeto = tecnologiaProjeto;
+        this.tecnologias = tecnologias;
+        this.emailContato = emailContato;
         this.cobreCustoFreelance = cobreCustoFreelance;
         this.valorCustoPago = valorCustoPago;
         this.valorHoraPago = valorHoraPago;
@@ -77,12 +83,20 @@ public class CadastroProjeto {
         this.paisProjeto = paisProjeto;
     }
 
-    public String getTecnologiaProjeto() {
-        return tecnologiaProjeto;
+    public Set<String> getTecnologias() {
+        return tecnologias;
     }
 
-    public void setTecnologiaProjeto(String tecnologiaProjeto) {
-        this.tecnologiaProjeto = tecnologiaProjeto;
+    public void setTecnologias(Set<String> tecnologias) {
+        this.tecnologias = tecnologias;
+    }
+
+    public String getEmailContato() {
+        return emailContato;
+    }
+
+    public void setEmailContato(String emailContato) {
+        this.emailContato = emailContato;
     }
 
     public Boolean getCobreCustoFreelance() {
@@ -113,8 +127,8 @@ public class CadastroProjeto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CadastroProjeto that = (CadastroProjeto) o;
-        return Objects.equals(idProjeto, that.idProjeto);
+        Projeto projeto = (Projeto) o;
+        return Objects.equals(idProjeto, projeto.idProjeto);
     }
 
     @Override
@@ -124,16 +138,18 @@ public class CadastroProjeto {
 
     @Override
     public String toString() {
-        return "CadastroProjeto{" +
+        return "Projeto{" +
                 "idProjeto=" + idProjeto +
                 ", nomeProjeto='" + nomeProjeto + '\'' +
                 ", tempoEmHoras='" + tempoEmHoras + '\'' +
                 ", empresaContratanteProjeto='" + empresaContratanteProjeto + '\'' +
                 ", paisProjeto='" + paisProjeto + '\'' +
-                ", tecnologiaProjeto='" + tecnologiaProjeto + '\'' +
+                ", tecnologias=" + tecnologias +
+                ", emailContato='" + emailContato + '\'' +
                 ", cobreCustoFreelance=" + cobreCustoFreelance +
                 ", valorCustoPago=" + valorCustoPago +
                 ", valorHoraPago=" + valorHoraPago +
                 '}';
     }
+
 }

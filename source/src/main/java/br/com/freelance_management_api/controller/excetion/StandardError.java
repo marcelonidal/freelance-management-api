@@ -1,4 +1,4 @@
-package br.com.freelance_management_api.freelance_management_api.controller.excetion;
+package br.com.freelance_management_api.controller.excetion;
 
 import java.time.Instant;
 
@@ -10,8 +10,17 @@ public class StandardError {
     private String message;
     private String path;
 
-    public StandardError () {}
+    public StandardError() {}
 
+    public StandardError(Instant timestamp, Integer status, String error, String message, String path) {
+        this.timestamp = timestamp;
+        this.status = status;
+        this.error = error;
+        this.message = message;
+        this.path = path;
+    }
+
+    // Getters e Setters
     public Instant getTimestamp() {
         return timestamp;
     }
@@ -51,4 +60,5 @@ public class StandardError {
     public void setPath(String path) {
         this.path = path;
     }
+
 }
