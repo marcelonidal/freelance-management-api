@@ -19,13 +19,13 @@ public class DisponibilidadeService {
 
     public boolean isFreelanceDisponivel(UUID freelanceId, LocalDate dataInicio, LocalDate dataFim) {
         return agendaFreelanceRepository
-                .findByFreelancer_IdFreelanceAndStartDateBeforeAndEndDateAfter(freelanceId, dataFim, dataInicio)
+                .findByFreelance_IdFreelanceAndDataFimGreaterThanEqualAndDataInicioLessThanEqual(freelanceId, dataInicio, dataFim)
                 .isEmpty();
     }
 
     public boolean isProjetoDisponivel(UUID projetoId, LocalDate dataInicio, LocalDate dataFim) {
         return agendaProjetoRepository
-                .findByProject_IdProjetoAndStartDateBeforeAndEndDateAfter(projetoId, dataFim, dataInicio)
+                .findByProjeto_IdProjetoAndDataFimGreaterThanEqualAndDataInicioLessThanEqual(projetoId, dataFim, dataInicio)
                 .isEmpty();
     }
 

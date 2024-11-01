@@ -1,28 +1,24 @@
-package br.com.freelance_management_api.entities;
+package br.com.freelance_management_api.dto;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Entity
-@Table(name = "tb_agenda_projeto")
-public class AgendaProjeto {
+public class AgendaProjetoDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "projeto_id")
-    private Projeto projeto;
+    @NotNull(message = "O projeto é obrigatório.")
+    private UUID idProjeto;
 
+    @NotNull(message = "A data de início é obrigatória.")
     private LocalDate dataInicio;
+
+    @NotNull(message = "A data de término é obrigatória.")
     private LocalDate dataFim;
 
-    public AgendaProjeto() {
-    }
-
+    // Getters and Setters
     public UUID getId() {
         return id;
     }
@@ -31,12 +27,12 @@ public class AgendaProjeto {
         this.id = id;
     }
 
-    public Projeto getProjeto() {
-        return projeto;
+    public UUID getIdProjeto() {
+        return idProjeto;
     }
 
-    public void setProjeto(Projeto projeto) {
-        this.projeto = projeto;
+    public void setIdProjeto(UUID idProjeto) {
+        this.idProjeto = idProjeto;
     }
 
     public LocalDate getDataInicio() {

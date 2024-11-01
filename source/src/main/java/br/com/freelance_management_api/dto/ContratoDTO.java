@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class ContratoDTO {
@@ -68,6 +70,17 @@ public class ContratoDTO {
 
     public void setEmailStatus(String emailStatus) {
         this.emailStatus = emailStatus;
+    }
+
+    public boolean isTecnologiasValidas() {
+        if (freelance == null || projeto == null) {
+            return false;
+        }
+
+        Set<String> freelanceTecnologias = new HashSet<>(freelance.getTecnologias());
+        Set<String> projetoTecnologias = new HashSet<>(projeto.getTecnologias());
+
+        return freelanceTecnologias.containsAll(projetoTecnologias);
     }
 
 }

@@ -30,7 +30,7 @@ public class EmailService {
         mailSender.send(message);
     }
 
-    public void enviaNotificacaoContrato(String freelancerEmail, String projectName, String companyEmail) throws MessagingException {
+    public void enviarNotificacaoContrato(String freelancerEmail, String projectName, String companyEmail) throws MessagingException {
         String freelancerSubject = "Novo Contrato Criado";
         String freelancerBody = "Parabéns! Um novo contrato foi criado para você no projeto: " + projectName + ". Em breve entraremos em contato com mais detalhes.";
 
@@ -41,7 +41,7 @@ public class EmailService {
         sendEmail(companyEmail, companySubject, companyBody);
     }
 
-    public void enviaPedidoPagamento(String freelancerEmail, String companyEmail, Double valorTotal) throws MessagingException {
+    public void enviarPedidoPagamento(String freelancerEmail, String companyEmail, Double valorTotal) throws MessagingException {
         String freelancerSubject = "Solicitação de Pagamento";
         String freelancerBody = "Seu pagamento de R$" + valorTotal + " está pronto para processamento. Por favor, confirme o recebimento.";
 

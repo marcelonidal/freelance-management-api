@@ -28,6 +28,9 @@ public class ProjetoDTO {
     private Double valorCustoPago;
     @Positive(message = "O valor por hora pago deve ser positivo.")
     private Double valorHoraPago;
+    @NotEmpty(message = "O valor em horas por dia é obrigatório.")
+    @Positive(message = "O valor de horas por dia deve ser um número positivo.")
+    private int horasPorDia;
 
     // Getters e Setters
     public UUID getIdProjeto() {
@@ -108,6 +111,15 @@ public class ProjetoDTO {
 
     public void setValorHoraPago(@Positive(message = "O valor por hora pago deve ser positivo.") Double valorHoraPago) {
         this.valorHoraPago = valorHoraPago;
+    }
+
+    @NotEmpty(message = "O valor em horas é obrigatório.")
+    public int getHorasPorDia() {
+        return horasPorDia;
+    }
+
+    public void setHorasPorDia(@NotEmpty(message = "O valor em horas é obrigatório.") int horasPorDia) {
+        this.horasPorDia = horasPorDia;
     }
 
 }

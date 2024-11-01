@@ -3,66 +3,68 @@ package br.com.freelance_management_api.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
+@Table(name = "tb_agenda_freelance")
 public class AgendaFreelance {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "freelancer_id")
-    private Freelance freelancer;
+    @JoinColumn(name = "freelance_id")
+    private Freelance freelance;
 
     @ManyToOne
-    @JoinColumn(name = "project_id")
-    private Projeto project;
+    @JoinColumn(name = "projeto_id")
+    private Projeto projeto;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDate dataInicio;
+    private LocalDate dataFim;
 
     public AgendaFreelance() {
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public Freelance getFreelancer() {
-        return freelancer;
+    public Freelance getFreelance() {
+        return freelance;
     }
 
-    public void setFreelancer(Freelance freelancer) {
-        this.freelancer = freelancer;
+    public void setFreelance(Freelance freelance) {
+        this.freelance = freelance;
     }
 
-    public Projeto getProject() {
-        return project;
+    public Projeto getProjeto() {
+        return projeto;
     }
 
-    public void setProject(Projeto project) {
-        this.project = project;
+    public void setProjeto(Projeto projeto) {
+        this.projeto = projeto;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
+    public LocalDate getDataInicio() {
+        return dataInicio;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
+    public void setDataInicio(LocalDate dataInicio) {
+        this.dataInicio = dataInicio;
     }
 
-    public LocalDate getEndDate() {
-        return endDate;
+    public LocalDate getDataFim() {
+        return dataFim;
     }
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
+    public void setDataFim(LocalDate dataFim) {
+        this.dataFim = dataFim;
     }
 
 }

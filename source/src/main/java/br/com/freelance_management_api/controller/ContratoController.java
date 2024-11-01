@@ -1,57 +1,58 @@
 package br.com.freelance_management_api.controller;
 
 import br.com.freelance_management_api.dto.ContratoDTO;
-import br.com.freelance_management_api.dto.FreelanceDTO;
-import br.com.freelance_management_api.dto.ProjetoDTO;
-import br.com.freelance_management_api.entities.Contrato;
-import br.com.freelance_management_api.entities.Freelance;
-import br.com.freelance_management_api.entities.Projeto;
 import br.com.freelance_management_api.service.ContratoService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/contratos")
-@Tag(name = "Contrato", description = "Endpoints para gerenciamento de contratos")
+@RequestMapping("/contrato")
+@Tag(name = "Contrato", description = "Endpoints para gerenciar contratos entre freelancers e projetos")
 public class ContratoController {
 
     @Autowired
     private ContratoService contratoService;
 
-    @Operation(summary = "Cria um novo contrato")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Contrato criado com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Freelancer ou projeto indisponível para o período")
-    })
-    @PostMapping("/criar")
-    public ResponseEntity<ContratoDTO> criarContrato(
-            @RequestParam UUID freelanceId,
-            @RequestParam UUID projetoId,
-            @RequestParam LocalDate dataInicio,
-            @RequestParam LocalDate dataFim) {
-
-        // Create the contract if availability checks pass
-        ContratoDTO contratoDTO = contratoService.criarContrato(freelanceId, projetoId, dataInicio, dataFim);
-        return ResponseEntity.status(201).body(contratoDTO);
+    @GetMapping
+    @Operation(summary = "Listar Contratos", description = "Retorna uma lista de todos os contratos.")
+    public ResponseEntity<List<ContratoDTO>> listarContratos() {
+        List<ContratoDTO> contratos = contratoService.listar();
+        return ResponseEntity.ok(contratos);
     }
 
-    @Operation(summary = "Busca um contrato pelo ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Contrato encontrado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Contrato não encontrado")
-    })
-    @GetMapping("/{contratoId}")
-    public ResponseEntity<ContratoDTO> buscarContrato(@PathVariable UUID contratoId) {
-        ContratoDTO contratoDTO = contratoService.buscarContrato(contratoId);
-        return ResponseEntity.ok(contratoDTO);
+    @GetMapping("/{id}")
+    @Operation(summary = "Buscar Contrato", description = "Recupera um contrato pelo ID fornecido.")
+    public ResponseEntity<ContratoDTO> buscarContrato(@PathVariable UUID id) {
+        return ResponseEntity.ok(contratoService.buscar(id));
+    }
+
+    @PostMapping
+    @Operation(summary = "Criar Contrato", description = "Cria um novo contrato com os detalhes fornecidos.")
+    public ResponseEntity<ContratoDTO> criarContrato(@Valid @RequestBody ContratoDTO contratoDTO) {
+        ContratoDTO novoContrato = contratoService.criar(contratoDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(contratoService.criar(novoContrato));
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Atualizar Contrato", description = "Atualiza um contrato existente com os novos detalhes fornecidos.")
+    public ResponseEntity<ContratoDTO> atualizarContrato(
+            @PathVariable UUID id, @Valid @RequestBody ContratoDTO contratoDTO) {
+        return ResponseEntity.ok(contratoService.atualizar(id, contratoDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Deletar Contrato", description = "Deleta um contrato pelo ID fornecido.")
+    public ResponseEntity<Void> deletarContrato(@PathVariable UUID id) {
+        contratoService.deletar(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

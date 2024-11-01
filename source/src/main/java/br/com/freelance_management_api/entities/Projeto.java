@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.util.*;
 
 @Entity
-@Table(name = "tb_cadastroprojeto")
+@Table(name = "tb_projeto")
 public class Projeto {
 
     @Id
@@ -25,12 +25,13 @@ public class Projeto {
     private Boolean cobreCustoFreelance;
     private Double valorCustoPago;
     private Double valorHoraPago;
+    private int horasPorDia;
 
     public Projeto() {
     }
 
     public Projeto(UUID idProjeto, String nomeProjeto, String tempoEmHoras, String empresaContratanteProjeto, String paisProjeto, Set<String> tecnologias,
-                   String emailContato, Boolean cobreCustoFreelance, Double valorCustoPago, Double valorHoraPago) {
+                   String emailContato, Boolean cobreCustoFreelance, Double valorCustoPago, Double valorHoraPago, int horasPorDia) {
         this.idProjeto = idProjeto;
         this.nomeProjeto = nomeProjeto;
         this.tempoEmHoras = tempoEmHoras;
@@ -41,6 +42,7 @@ public class Projeto {
         this.cobreCustoFreelance = cobreCustoFreelance;
         this.valorCustoPago = valorCustoPago;
         this.valorHoraPago = valorHoraPago;
+        this.horasPorDia = horasPorDia;
     }
 
     public UUID getIdProjeto() {
@@ -123,6 +125,14 @@ public class Projeto {
         this.valorHoraPago = valorHoraPago;
     }
 
+    public int getHorasPorDia() {
+        return horasPorDia;
+    }
+
+    public void setHorasPorDia(int horasPorDia) {
+        this.horasPorDia = horasPorDia;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -149,6 +159,7 @@ public class Projeto {
                 ", cobreCustoFreelance=" + cobreCustoFreelance +
                 ", valorCustoPago=" + valorCustoPago +
                 ", valorHoraPago=" + valorHoraPago +
+                ", horasPorDia=" + horasPorDia +
                 '}';
     }
 
