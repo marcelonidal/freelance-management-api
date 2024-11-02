@@ -1,14 +1,8 @@
 package br.com.freelance_management_api.service;
 
-import br.com.freelance_management_api.dto.ContratoDTO;
-import br.com.freelance_management_api.dto.FreelanceDTO;
-import br.com.freelance_management_api.dto.ProjetoDTO;
-import br.com.freelance_management_api.entities.Contrato;
-import br.com.freelance_management_api.entities.Freelance;
-import br.com.freelance_management_api.entities.Projeto;
-import br.com.freelance_management_api.repository.ContratoRepository;
-import br.com.freelance_management_api.repository.FreelanceRepository;
-import br.com.freelance_management_api.repository.ProjetoRepository;
+import br.com.freelance_management_api.dto.*;
+import br.com.freelance_management_api.entities.*;
+import br.com.freelance_management_api.repository.*;
 import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +27,21 @@ public class ContratoService {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private DisponibilidadeService disponibilidadeService;
+
+    @Autowired
+    private AgendaFreelanceService agendaFreelanceService;
+
+    @Autowired
+    private AgendaProjetoService agendaProjetoService;
+
+    @Autowired
+    private AgendaFreelanceRepository agendaFreelanceRepository;
+
+    @Autowired
+    private AgendaProjetoRepository agendaProjetoRepository;
+
     public List<ContratoDTO> listar() {
         return contratoRepository.findAll().stream()
                 .map(this::toDTO)
@@ -48,11 +57,24 @@ public class ContratoService {
     public ContratoDTO criar(ContratoDTO contratoDTO) {
         Freelance freelance = freelanceRepository.findById(contratoDTO.getFreelance().getIdFreelance())
                 .orElseThrow(() -> new EntityNotFoundException("Freelance não encontrado"));
+
         Projeto projeto = projetoRepository.findById(contratoDTO.getProjeto().getIdProjeto())
                 .orElseThrow(() -> new EntityNotFoundException("Projeto não encontrado"));
 
         if (!contratoDTO.isTecnologiasValidas()) {
             throw new IllegalArgumentException("O freelance não possui todas as tecnologias exigidas pelo projeto.");
+        }
+
+        boolean disponivel = disponibilidadeService.isFreelanceDisponivel(
+                freelance.getIdFreelance(), contratoDTO.getDataInicioContrato(), contratoDTO.getDateFimContrato());
+        if (!disponivel) {
+            throw new IllegalStateException("O freelancer não está disponível durante o período do contrato.");
+        }
+
+        boolean projetoDisponivel = disponibilidadeService.isProjetoDisponivel(
+                projeto.getIdProjeto(), contratoDTO.getDataInicioContrato(), contratoDTO.getDateFimContrato());
+        if (!projetoDisponivel) {
+            throw new IllegalStateException("O projeto não está disponível durante o período do contrato.");
         }
 
         Contrato contrato = new Contrato();
@@ -63,8 +85,20 @@ public class ContratoService {
 
         contrato = contratoRepository.save(contrato);
 
-        ContratoDTO contratoMsgDTO = toDTO(contrato);
+        AgendaFreelanceDTO agendaFreelanceDTO = new AgendaFreelanceDTO();
+        agendaFreelanceDTO.setIdFreelance(freelance.getIdFreelance());
+        agendaFreelanceDTO.setDataInicio(contratoDTO.getDataInicioContrato());
+        agendaFreelanceDTO.setDataFim(contratoDTO.getDateFimContrato());
+        agendaFreelanceDTO.setIdProjeto(projeto.getIdProjeto());
+        agendaFreelanceService.criar(agendaFreelanceDTO);
 
+        AgendaProjetoDTO agendaProjetoDTO = new AgendaProjetoDTO();
+        agendaProjetoDTO.setIdProjeto(projeto.getIdProjeto());
+        agendaProjetoDTO.setDataInicio(contratoDTO.getDataInicioContrato());
+        agendaProjetoDTO.setDataFim(contratoDTO.getDateFimContrato());
+        agendaProjetoService.criar(agendaProjetoDTO);
+
+        ContratoDTO contratoMsgDTO = toDTO(contrato);
 
         try {
             emailService.enviarNotificacaoContrato(
@@ -84,13 +118,54 @@ public class ContratoService {
         Contrato contrato = contratoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Contrato não encontrado para atualização"));
 
+        Freelance freelance = freelanceRepository.findById(contratoDTO.getFreelance().getIdFreelance())
+                .orElseThrow(() -> new EntityNotFoundException("Freelance não encontrado"));
+
+        Projeto projeto = projetoRepository.findById(contratoDTO.getProjeto().getIdProjeto())
+                .orElseThrow(() -> new EntityNotFoundException("Projeto não encontrado"));
+
+        if (!contratoDTO.isTecnologiasValidas()) {
+            throw new IllegalArgumentException("O freelance não possui todas as tecnologias exigidas pelo projeto.");
+        }
+
+        contrato.setFreelance(freelance);
+        contrato.setProjeto(projeto);
         contrato.setDataInicioContrato(contratoDTO.getDataInicioContrato());
         contrato.setDateFimContrato(contratoDTO.getDateFimContrato());
+
         contrato = contratoRepository.save(contrato);
+
+        List<AgendaFreelance> lstAgendaFreelance = agendaFreelanceRepository.findByFreelance_IdFreelanceAndDataFimGreaterThanEqualAndDataInicioLessThanEqual(
+                        freelance.getIdFreelance(), contrato.getDataInicioContrato(), contrato.getDateFimContrato());
+        if (lstAgendaFreelance.isEmpty()) {
+            throw new EntityNotFoundException("Agenda de Freelance não encontrada");
+        }
+
+        AgendaFreelance agendaFreelance = lstAgendaFreelance.get(0);
+
+        agendaFreelance.setDataInicio(contrato.getDataInicioContrato());
+        agendaFreelance.setDataFim(contrato.getDateFimContrato());
+        agendaFreelanceService.atualizar(agendaFreelance.getId(), toAgendaFreelanceDTO(agendaFreelance));
+
+        List<AgendaProjeto> lstAgendaProjeto = agendaProjetoRepository.findByProjeto_IdProjetoAndDataFimGreaterThanEqualAndDataInicioLessThanEqual(
+                        projeto.getIdProjeto(), contrato.getDataInicioContrato(), contrato.getDateFimContrato());
+        if (lstAgendaProjeto.isEmpty()) {
+            throw new EntityNotFoundException("Agenda de Freelance não encontrada");
+        }
+        AgendaProjeto agendaProjeto = lstAgendaProjeto.get(0);
+
+        agendaProjeto.setDataInicio(contrato.getDataInicioContrato());
+        agendaProjeto.setDataFim(contrato.getDateFimContrato());
+        agendaProjetoService.atualizar(agendaProjeto.getId(), toAgendaProjetoDTO(agendaProjeto));
+
         return toDTO(contrato);
     }
 
     public void deletar(UUID contratoId) {
+        if (!contratoRepository.existsById(contratoId)) {
+            throw new EntityNotFoundException("Contrato não encontrado para exclusão");
+        }
+
         contratoRepository.deleteById(contratoId);
     }
 
@@ -130,6 +205,25 @@ public class ContratoService {
         dto.setCobreCustoFreelance(projeto.getCobreCustoFreelance());
         dto.setValorCustoPago(projeto.getValorCustoPago());
         dto.setValorHoraPago(projeto.getValorHoraPago());
+        return dto;
+    }
+
+    private AgendaFreelanceDTO toAgendaFreelanceDTO(AgendaFreelance agendaFreelance) {
+        AgendaFreelanceDTO dto = new AgendaFreelanceDTO();
+        dto.setId(agendaFreelance.getId());
+        dto.setIdFreelance(agendaFreelance.getFreelance().getIdFreelance());
+        dto.setIdProjeto(agendaFreelance.getProjeto().getIdProjeto());
+        dto.setDataInicio(agendaFreelance.getDataInicio());
+        dto.setDataFim(agendaFreelance.getDataFim());
+        return dto;
+    }
+
+    private AgendaProjetoDTO toAgendaProjetoDTO(AgendaProjeto agendaProjeto) {
+        AgendaProjetoDTO dto = new AgendaProjetoDTO();
+        dto.setId(agendaProjeto.getId());
+        dto.setIdProjeto(agendaProjeto.getProjeto().getIdProjeto());
+        dto.setDataInicio(agendaProjeto.getDataInicio());
+        dto.setDataFim(agendaProjeto.getDataFim());
         return dto;
     }
 

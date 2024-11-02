@@ -9,13 +9,13 @@ public class AgendaProjetoDTO {
 
     private UUID id;
 
-    @NotNull(message = "O projeto é obrigatório.")
+    @NotNull(message = "{agendaProjeto.idProjeto.obrigatorio}")
     private UUID idProjeto;
 
-    @NotNull(message = "A data de início é obrigatória.")
+    @NotNull(message = "{agendaProjeto.dataInicio.obrigatoria}")
     private LocalDate dataInicio;
 
-    @NotNull(message = "A data de término é obrigatória.")
+    @NotNull(message = "{agendaProjeto.dataFim.obrigatoria}")
     private LocalDate dataFim;
 
     // Getters and Setters

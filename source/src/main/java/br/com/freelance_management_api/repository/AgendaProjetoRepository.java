@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface AgendaProjetoRepository extends JpaRepository<AgendaProjeto, Long> {
+public interface AgendaProjetoRepository extends JpaRepository<AgendaProjeto, UUID> {
 
     List<AgendaProjeto> findByProjeto_IdProjetoAndDataFimGreaterThanEqualAndDataInicioLessThanEqual(UUID idProjeto, LocalDate dataInicio, LocalDate dataFim);
 }

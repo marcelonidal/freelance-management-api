@@ -53,6 +53,9 @@ public class FreelanceService {
     }
 
     public void deletar(UUID id) {
+        if (!freelanceRepository.existsById(id)) {
+            throw new EntityNotFoundException("Contrato não encontrado para exclusão");
+        }
         freelanceRepository.deleteById(id);
     }
 

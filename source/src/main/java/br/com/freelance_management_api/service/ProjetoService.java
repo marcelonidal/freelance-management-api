@@ -53,6 +53,10 @@ public class ProjetoService {
     }
 
     public void deletar(UUID id) {
+        if (!projetoRepository.existsById(id)) {
+            throw new EntityNotFoundException("Contrato não encontrado para exclusão");
+        }
+
         projetoRepository.deleteById(id);
     }
 

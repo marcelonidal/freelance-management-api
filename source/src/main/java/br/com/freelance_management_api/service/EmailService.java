@@ -30,25 +30,25 @@ public class EmailService {
         mailSender.send(message);
     }
 
-    public void enviarNotificacaoContrato(String freelancerEmail, String projectName, String companyEmail) throws MessagingException {
-        String freelancerSubject = "Novo Contrato Criado";
-        String freelancerBody = "Parabéns! Um novo contrato foi criado para você no projeto: " + projectName + ". Em breve entraremos em contato com mais detalhes.";
+    public void enviarNotificacaoContrato(String emailFreelance, String nomeProjeto, String emailEmpresa) throws MessagingException {
+        String tituloFreelance = "Novo Contrato Criado";
+        String bodyFreelance = "Parabéns! Um novo contrato foi criado para você no projeto: " + nomeProjeto + ". Em breve entraremos em contato com mais detalhes.";
 
-        String companySubject = "Novo Contrato para Projeto: " + projectName;
-        String companyBody = "Um contrato foi criado com um freelancer para o projeto: " + projectName + ". Por favor, confirme os detalhes.";
+        String tituloEmpresa = "Novo Contrato para Projeto: " + nomeProjeto;
+        String bodyEmpresa = "Um contrato foi criado com um freelancer para o projeto: " + nomeProjeto + ". Por favor, confirme os detalhes.";
 
-        sendEmail(freelancerEmail, freelancerSubject, freelancerBody);
-        sendEmail(companyEmail, companySubject, companyBody);
+        sendEmail(emailFreelance, tituloFreelance, bodyFreelance);
+        sendEmail(emailEmpresa, tituloEmpresa, bodyEmpresa);
     }
 
-    public void enviarPedidoPagamento(String freelancerEmail, String companyEmail, Double valorTotal) throws MessagingException {
-        String freelancerSubject = "Solicitação de Pagamento";
-        String freelancerBody = "Seu pagamento de R$" + valorTotal + " está pronto para processamento. Por favor, confirme o recebimento.";
+    public void enviarPedidoPagamento(String emailFreelance, String emailEmpresa, Double valorTotal) throws MessagingException {
+        String tituloFreelance = "Solicitação de Pagamento";
+        String bodyFreelance = "Seu pagamento de R$" + valorTotal + " está pronto para processamento. Por favor, confirme o recebimento.";
 
-        String companySubject = "Pagamento a Processar para o Freelancer";
-        String companyBody = "Por favor, processe o pagamento de R$" + valorTotal + " ao freelancer associado.";
+        String tituloEmpresa = "Pagamento a Processar para o Freelancer";
+        String bodyEmpresa = "Por favor, processe o pagamento de R$" + valorTotal + " ao freelancer associado.";
 
-        sendEmail(freelancerEmail, freelancerSubject, freelancerBody);
-        sendEmail(companyEmail, companySubject, companyBody);
+        sendEmail(emailFreelance, tituloFreelance, bodyFreelance);
+        sendEmail(emailEmpresa, tituloEmpresa, bodyEmpresa);
     }
 }

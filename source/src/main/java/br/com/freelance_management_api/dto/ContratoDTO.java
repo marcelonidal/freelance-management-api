@@ -13,13 +13,16 @@ public class ContratoDTO {
 
     private UUID idContrato;
 
-    @NotNull(message = "O freelancer é obrigatório.")
+    @NotNull(message = "{contrato.freelance.obrigatorio}")
     private FreelanceDTO freelance;
-    @NotNull(message = "O projeto é obrigatório.")
+
+    @NotNull(message = "{contrato.projeto.obrigatorio}")
     private ProjetoDTO projeto;
-    @NotNull(message = "A data de início do contrato é obrigatória.")
+
+    @NotNull(message = "{contrato.dataInicioContrato.obrigatoria}")
     private LocalDate dataInicioContrato;
-    @NotNull(message = "A data de término do contrato é obrigatória.")
+
+    @NotNull(message = "{contrato.dataFimContrato.obrigatoria}")
     private LocalDate dateFimContrato;
     private String emailStatus;
 
@@ -32,35 +35,35 @@ public class ContratoDTO {
         this.idContrato = idContrato;
     }
 
-    public @NotNull(message = "O freelancer é obrigatório.") FreelanceDTO getFreelance() {
+    public FreelanceDTO getFreelance() {
         return freelance;
     }
 
-    public void setFreelance(@NotNull(message = "O freelancer é obrigatório.") FreelanceDTO freelance) {
+    public void setFreelance(FreelanceDTO freelance) {
         this.freelance = freelance;
     }
 
-    public @NotNull(message = "O projeto é obrigatório.") ProjetoDTO getProjeto() {
+    public ProjetoDTO getProjeto() {
         return projeto;
     }
 
-    public void setProjeto(@NotNull(message = "O projeto é obrigatório.") ProjetoDTO projeto) {
+    public void setProjeto(ProjetoDTO projeto) {
         this.projeto = projeto;
     }
 
-    public @NotNull(message = "A data de início do contrato é obrigatória.") LocalDate getDataInicioContrato() {
+    public LocalDate getDataInicioContrato() {
         return dataInicioContrato;
     }
 
-    public void setDataInicioContrato(@NotNull(message = "A data de início do contrato é obrigatória.") LocalDate dataInicioContrato) {
+    public void setDataInicioContrato(LocalDate dataInicioContrato) {
         this.dataInicioContrato = dataInicioContrato;
     }
 
-    public @NotNull(message = "A data de término do contrato é obrigatória.") LocalDate getDateFimContrato() {
+    public LocalDate getDateFimContrato() {
         return dateFimContrato;
     }
 
-    public void setDateFimContrato(@NotNull(message = "A data de término do contrato é obrigatória.") LocalDate dateFimContrato) {
+    public void setDateFimContrato(LocalDate dateFimContrato) {
         this.dateFimContrato = dateFimContrato;
     }
 

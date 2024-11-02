@@ -11,25 +11,34 @@ public class ProjetoDTO {
 
     private UUID idProjeto;
 
-    @NotEmpty(message = "O nome do projeto é obrigatório.")
+    @NotEmpty(message = "{projeto.nome.obrigatorio}")
     private String nomeProjeto;
-    @NotEmpty(message = "O tempo em horas é obrigatório.")
+
+    @NotEmpty(message = "{projeto.tempoHoras.obrigatorio}")
     private String tempoEmHoras;
-    @NotEmpty(message = "A empresa contratante é obrigatória.")
+
+    @NotEmpty(message = "{projeto.empresaContratante.obrigatorio}")
     private String empresaContratanteProjeto;
+
     private String paisProjeto;
-    @NotEmpty(message = "As tecnologias do projeto são obrigatórias.")
+
+    @NotEmpty(message = "{projeto.tecnologias.obrigatorias}")
     private Set<String> tecnologias;
-    @Email(message = "E-mail de contato inválido.")
-    @NotEmpty(message = "O e-mail de contato é obrigatório.")
+
+    @Email(message = "{projeto.emailContato.invalido}")
+    @NotEmpty(message = "{projeto.emailContato.obrigatorio}")
     private String emailContato;
+
     private Boolean cobreCustoFreelance;
-    @Positive(message = "O valor do custo pago deve ser positivo.")
+
+    @Positive(message = "{projeto.valorCustoPago.positivo}")
     private Double valorCustoPago;
-    @Positive(message = "O valor por hora pago deve ser positivo.")
+
+    @Positive(message = "{projeto.valorHoraPago.positivo}")
     private Double valorHoraPago;
-    @NotEmpty(message = "O valor em horas por dia é obrigatório.")
-    @Positive(message = "O valor de horas por dia deve ser um número positivo.")
+
+    @NotEmpty(message = "{projeto.horasPorDia.obrigatorio}")
+    @Positive(message = "{projeto.horasPorDia.positivo}")
     private int horasPorDia;
 
     // Getters e Setters
@@ -41,27 +50,27 @@ public class ProjetoDTO {
         this.idProjeto = idProjeto;
     }
 
-    public @NotEmpty(message = "O nome do projeto é obrigatório.") String getNomeProjeto() {
+    public String getNomeProjeto() {
         return nomeProjeto;
     }
 
-    public void setNomeProjeto(@NotEmpty(message = "O nome do projeto é obrigatório.") String nomeProjeto) {
+    public void setNomeProjeto(String nomeProjeto) {
         this.nomeProjeto = nomeProjeto;
     }
 
-    public @NotEmpty(message = "O tempo em horas é obrigatório.") String getTempoEmHoras() {
+    public String getTempoEmHoras() {
         return tempoEmHoras;
     }
 
-    public void setTempoEmHoras(@NotEmpty(message = "O tempo em horas é obrigatório.") String tempoEmHoras) {
+    public void setTempoEmHoras(String tempoEmHoras) {
         this.tempoEmHoras = tempoEmHoras;
     }
 
-    public @NotEmpty(message = "A empresa contratante é obrigatória.") String getEmpresaContratanteProjeto() {
+    public String getEmpresaContratanteProjeto() {
         return empresaContratanteProjeto;
     }
 
-    public void setEmpresaContratanteProjeto(@NotEmpty(message = "A empresa contratante é obrigatória.") String empresaContratanteProjeto) {
+    public void setEmpresaContratanteProjeto(String empresaContratanteProjeto) {
         this.empresaContratanteProjeto = empresaContratanteProjeto;
     }
 
@@ -73,19 +82,19 @@ public class ProjetoDTO {
         this.paisProjeto = paisProjeto;
     }
 
-    public @NotEmpty(message = "As tecnologias do projeto são obrigatórias.") Set<String> getTecnologias() {
+    public Set<String> getTecnologias() {
         return tecnologias;
     }
 
-    public void setTecnologias(@NotEmpty(message = "As tecnologias do projeto são obrigatórias.") Set<String> tecnologias) {
+    public void setTecnologias(Set<String> tecnologias) {
         this.tecnologias = tecnologias;
     }
 
-    public @Email(message = "E-mail de contato inválido.") @NotEmpty(message = "O e-mail de contato é obrigatório.") String getEmailContato() {
+    public String getEmailContato() {
         return emailContato;
     }
 
-    public void setEmailContato(@Email(message = "E-mail de contato inválido.") @NotEmpty(message = "O e-mail de contato é obrigatório.") String emailContato) {
+    public void setEmailContato(String emailContato) {
         this.emailContato = emailContato;
     }
 
@@ -97,28 +106,27 @@ public class ProjetoDTO {
         this.cobreCustoFreelance = cobreCustoFreelance;
     }
 
-    public @Positive(message = "O valor do custo pago deve ser positivo.") Double getValorCustoPago() {
+    public Double getValorCustoPago() {
         return valorCustoPago;
     }
 
-    public void setValorCustoPago(@Positive(message = "O valor do custo pago deve ser positivo.") Double valorCustoPago) {
+    public void setValorCustoPago(Double valorCustoPago) {
         this.valorCustoPago = valorCustoPago;
     }
 
-    public @Positive(message = "O valor por hora pago deve ser positivo.") Double getValorHoraPago() {
+    public Double getValorHoraPago() {
         return valorHoraPago;
     }
 
-    public void setValorHoraPago(@Positive(message = "O valor por hora pago deve ser positivo.") Double valorHoraPago) {
+    public void setValorHoraPago(Double valorHoraPago) {
         this.valorHoraPago = valorHoraPago;
     }
 
-    @NotEmpty(message = "O valor em horas é obrigatório.")
     public int getHorasPorDia() {
         return horasPorDia;
     }
 
-    public void setHorasPorDia(@NotEmpty(message = "O valor em horas é obrigatório.") int horasPorDia) {
+    public void setHorasPorDia(int horasPorDia) {
         this.horasPorDia = horasPorDia;
     }
 

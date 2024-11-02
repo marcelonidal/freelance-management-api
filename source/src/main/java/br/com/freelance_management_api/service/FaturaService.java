@@ -88,6 +88,10 @@ public class FaturaService {
     }
 
     public void deletar(Long id) {
+        if (!faturaRepository.existsById(id)) {
+            throw new EntityNotFoundException("Contrato não encontrado para exclusão");
+        }
+
         faturaRepository.deleteById(id);
     }
 

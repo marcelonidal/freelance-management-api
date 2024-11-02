@@ -10,22 +10,22 @@ public class FaturaDTO {
 
     private UUID id;
 
-    @Positive(message = "O valor deve ser positivo.")
+    @Positive(message = "{fatura.valor.positivo}")
     private Double valor;
 
-    @NotNull(message = "O status da fatura é obrigatório.")
+    @NotNull(message = "{fatura.status.obrigatorio}")
     private String status;
 
-    @NotNull(message = "A data de emissão é obrigatória.")
+    @NotNull(message = "{fatura.dataEmissao.obrigatoria}")
     private LocalDate dataEmissao;
 
-    @NotNull(message = "A data de vencimento é obrigatória.")
+    @NotNull(message = "{fatura.dataVencimento.obrigatoria}")
     private LocalDate dataVencimento;
 
-    @NotNull(message = "O projeto é obrigatório.")
+    @NotNull(message = "{fatura.projeto.obrigatorio}")
     private ProjetoDTO projeto;
 
-    @NotNull(message = "O freelancer é obrigatório.")
+    @NotNull(message = "{fatura.freelance.obrigatorio}")
     private FreelanceDTO freelance;
     private String emailStatus;
 
@@ -70,19 +70,19 @@ public class FaturaDTO {
         this.dataVencimento = dataVencimento;
     }
 
-    public @NotNull(message = "O projeto é obrigatório.") ProjetoDTO getProjeto() {
+    public ProjetoDTO getProjeto() {
         return projeto;
     }
 
-    public void setProjeto(@NotNull(message = "O projeto é obrigatório.") ProjetoDTO projeto) {
+    public void setProjeto(ProjetoDTO projeto) {
         this.projeto = projeto;
     }
 
-    public @NotNull(message = "O freelancer é obrigatório.") FreelanceDTO getFreelance() {
+    public FreelanceDTO getFreelance() {
         return freelance;
     }
 
-    public void setFreelance(@NotNull(message = "O freelancer é obrigatório.") FreelanceDTO freelance) {
+    public void setFreelance(FreelanceDTO freelance) {
         this.freelance = freelance;
     }
 

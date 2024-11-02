@@ -9,16 +9,16 @@ public class AgendaFreelanceDTO {
 
     private UUID id;
 
-    @NotNull(message = "O freelancer é obrigatório.")
+    @NotNull(message = "{agendaFreelance.idFreelance.notNull}")
     private UUID idFreelance;
 
-    @NotNull(message = "O projeto é obrigatório.")
+    @NotNull(message = "{agendaFreelance.idProjeto.notNull}")
     private UUID idProjeto;
 
-    @NotNull(message = "A data de início é obrigatória.")
+    @NotNull(message = "{agendaFreelance.dataInicio.notNull}")
     private LocalDate dataInicio;
 
-    @NotNull(message = "A data de término é obrigatória.")
+    @NotNull(message = "{agendaFreelance.dataFim.notNull}")
     private LocalDate dataFim;
 
     // Getters and Setters

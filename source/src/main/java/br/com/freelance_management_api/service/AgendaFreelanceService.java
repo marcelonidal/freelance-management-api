@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,7 +33,7 @@ public class AgendaFreelanceService {
                 .collect(Collectors.toList());
     }
 
-    public AgendaFreelanceDTO buscar(Long id) {
+    public AgendaFreelanceDTO buscar(UUID id) {
         AgendaFreelance agendaFreelance = agendaFreelanceRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Agendamento não encontrado"));
         return toDTO(agendaFreelance);
@@ -44,7 +45,7 @@ public class AgendaFreelanceService {
         return toDTO(agendaFreelance);
     }
 
-    public AgendaFreelanceDTO atualizar(Long id, AgendaFreelanceDTO agendaFreelanceDTO) {
+    public AgendaFreelanceDTO atualizar(UUID id, AgendaFreelanceDTO agendaFreelanceDTO) {
         AgendaFreelance existingAgenda = agendaFreelanceRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Agendamento não encontrado para atualização"));
 
@@ -54,7 +55,7 @@ public class AgendaFreelanceService {
         return toDTO(existingAgenda);
     }
 
-    public void deletar(Long id) {
+    public void deletar(UUID id) {
         if (!agendaFreelanceRepository.existsById(id)) {
             throw new EntityNotFoundException("Agendamento não encontrado para exclusão");
         }

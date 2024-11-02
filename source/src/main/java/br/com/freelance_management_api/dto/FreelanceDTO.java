@@ -13,19 +13,24 @@ public class FreelanceDTO {
 
     private UUID idFreelance;
 
-    @NotEmpty(message = "O nome é obrigatório.")
+    @NotEmpty(message = "{freelance.nome.obrigatorio}")
     private String nome;
-    @Email(message = "E-mail inválido.")
-    @NotEmpty(message = "O e-mail é obrigatório.")
+
+    @Email(message = "{freelance.email.invalido}")
+    @NotEmpty(message = "{freelance.email.obrigatorio}")
     private String eMail;
-    @NotEmpty(message = "As tecnologias são obrigatórias.")
+
+    @NotEmpty(message = "{freelance.tecnologias.obrigatorias}")
     private Set<String> tecnologias;
+
     private String enderecoResidencia;
     private int numeroResidencia;
     private String complementoEndereco;
-    @Positive(message = "Anos de experiência deve ser um número positivo.")
+
+    @Positive(message = "{freelance.anosExperiencia.positivo}")
     private int qtdAnosExperiencia;
-    @Positive(message = "Valor por hora deve ser um valor positivo.")
+
+    @Positive(message = "{freelance.valorHora.positivo}")
     private Double valorHora;
 
     // Getters e Setters
@@ -37,27 +42,27 @@ public class FreelanceDTO {
         this.idFreelance = idFreelance;
     }
 
-    public @NotEmpty(message = "O nome é obrigatório.") String getNome() {
+    public String getNome() {
         return nome;
     }
 
-    public void setNome(@NotEmpty(message = "O nome é obrigatório.") String nome) {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
-    public @Email(message = "E-mail inválido.") @NotEmpty(message = "O e-mail é obrigatório.") String geteMail() {
+    public String geteMail() {
         return eMail;
     }
 
-    public void seteMail(@Email(message = "E-mail inválido.") @NotEmpty(message = "O e-mail é obrigatório.") String eMail) {
+    public void seteMail(String eMail) {
         this.eMail = eMail;
     }
 
-    public @NotEmpty(message = "As tecnologias são obrigatórias.") Set<String> getTecnologias() {
+    public Set<String> getTecnologias() {
         return tecnologias;
     }
 
-    public void setTecnologias(@NotEmpty(message = "As tecnologias são obrigatórias.") Set<String> tecnologias) {
+    public void setTecnologias(Set<String> tecnologias) {
         this.tecnologias = tecnologias;
     }
 
@@ -85,20 +90,19 @@ public class FreelanceDTO {
         this.complementoEndereco = complementoEndereco;
     }
 
-    @Positive(message = "Anos de experiência deve ser um número positivo.")
     public int getQtdAnosExperiencia() {
         return qtdAnosExperiencia;
     }
 
-    public void setQtdAnosExperiencia(@Positive(message = "Anos de experiência deve ser um número positivo.") int qtdAnosExperiencia) {
+    public void setQtdAnosExperiencia(int qtdAnosExperiencia) {
         this.qtdAnosExperiencia = qtdAnosExperiencia;
     }
 
-    public @Positive(message = "Valor por hora deve ser um valor positivo.") Double getValorHora() {
+    public Double getValorHora() {
         return valorHora;
     }
 
-    public void setValorHora(@Positive(message = "Valor por hora deve ser um valor positivo.") Double valorHora) {
+    public void setValorHora(Double valorHora) {
         this.valorHora = valorHora;
     }
 
