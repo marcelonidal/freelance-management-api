@@ -1,11 +1,11 @@
 package br.com.freelance_management_api.controller.excetion;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -16,44 +16,34 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
+    private StandardError createStandardError(HttpStatus status, String error, String message, HttpServletRequest request) {
+        return new StandardError(Instant.now(), status.value(), error, message, request.getRequestURI());
+    }
+
     @ExceptionHandler(ControllerNotFoundException.class)
-    public ResponseEntity<StandardError> entityNotFound(ControllerNotFoundException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.NOT_FOUND;
-
-        StandardError err = new StandardError();
-        err.setTimestamp(Instant.now());
-        err.setStatus(status.value());
-        err.setError("Entity not found");
-        err.setMessage(e.getMessage());
-        err.setPath(request.getRequestURI());
-
-        return ResponseEntity.status(status).body(err);
+    public ResponseEntity<StandardError> handleEntityNotFound(ControllerNotFoundException e, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(createStandardError(HttpStatus.NOT_FOUND, "Entidade não encontrada", e.getMessage(), request));
     }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<StandardError> handleRuntimeException(RuntimeException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-
-        StandardError err = new StandardError();
-        err.setTimestamp(Instant.now());
-        err.setStatus(status.value());
-        err.setError("Internal Server Error");
-        err.setMessage(e.getMessage());
-        err.setPath(request.getRequestURI());
-
-        return ResponseEntity.status(status).body(err);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(createStandardError(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno no servidor", e.getMessage(), request));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ValidationError> handleValidationExceptions(MethodArgumentNotValidException e) {
-        HttpStatus status = HttpStatus.BAD_REQUEST;
+    public ResponseEntity<ValidationError> handleValidationExceptions(MethodArgumentNotValidException e, HttpServletRequest request) {
         Map<String, String> errors = e.getBindingResult().getFieldErrors().stream()
-                .collect(Collectors.toMap(
-                        FieldError::getField,
-                        DefaultMessageSourceResolvable::getDefaultMessage
-                ));
-        ValidationError err = new ValidationError(Instant.now(), status.value(), "Validation Error", "Erro ao validar campos do formulário", errors);
-        return ResponseEntity.status(status).body(err);
+                .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
+        ValidationError err = new ValidationError(Instant.now(), HttpStatus.BAD_REQUEST.value(),
+                "Erro de validação", "Erro ao validar campos do formulário", errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
 
+    @ExceptionHandler(MissingPathVariableException.class)
+    public ResponseEntity<StandardError> handleMissingPathVariable(MissingPathVariableException e, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(createStandardError(HttpStatus.BAD_REQUEST, "Parâmetro obrigatório ausente", e.getMessage(), request));
+    }
 }

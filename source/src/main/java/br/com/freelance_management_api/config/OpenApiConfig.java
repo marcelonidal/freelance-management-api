@@ -1,7 +1,10 @@
 package br.com.freelance_management_api.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.models.parameters.HeaderParameter;
+import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,5 +35,19 @@ public class OpenApiConfig {
         @Bean
         public LocaleResolver localeResolver() {
                 return new FixedLocaleResolver(new Locale("pt", "BR"));
+        }
+
+        @Bean
+        public OpenApiCustomizer customizeOpenAPI() {
+                return openApi -> openApi.getPaths().values().forEach(pathItem ->
+                        pathItem.readOperations().forEach(operation ->
+                                operation.addParametersItem(new HeaderParameter()
+                                        .name("Accept-Language")
+                                        .description("Idioma preferido para a resposta")
+                                        .required(false)
+                                        .example("pt-BR")
+                                )
+                        )
+                );
         }
 }
