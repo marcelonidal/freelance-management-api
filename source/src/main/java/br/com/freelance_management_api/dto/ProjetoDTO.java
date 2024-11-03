@@ -2,6 +2,7 @@ package br.com.freelance_management_api.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.util.Set;
@@ -37,7 +38,7 @@ public class ProjetoDTO {
     @Positive(message = "{projeto.valorHoraPago.positivo}")
     private Double valorHoraPago;
 
-    @NotEmpty(message = "{projeto.horasPorDia.obrigatorio}")
+    @NotNull(message = "{projeto.horasPorDia.obrigatorio}")
     @Positive(message = "{projeto.horasPorDia.positivo}")
     private int horasPorDia;
 

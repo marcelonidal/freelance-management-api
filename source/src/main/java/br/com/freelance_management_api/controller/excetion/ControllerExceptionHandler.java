@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.Instant;
 import java.util.Map;
@@ -46,4 +47,12 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(createStandardError(HttpStatus.BAD_REQUEST, "Parâmetro obrigatório ausente", e.getMessage(), request));
     }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<StandardError> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException e, HttpServletRequest request) {
+        String message = "O parametro '" + e.getName() + "' deve ser um UUID valido.";
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(createStandardError(HttpStatus.BAD_REQUEST, "Parametro invalido", message, request));
+    }
+
 }
