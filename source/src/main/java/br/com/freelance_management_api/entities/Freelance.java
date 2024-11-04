@@ -14,7 +14,7 @@ public class Freelance {
 
     private String nome;
     private String eMail;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "freelance_tecnologias", joinColumns = @JoinColumn(name = "freelance_id"))
     @Column(name = "tecnologia")
     private Set<String> tecnologias = new HashSet<>();

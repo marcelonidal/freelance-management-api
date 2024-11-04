@@ -42,7 +42,14 @@ public class ProjetoDTO {
     @Positive(message = "{projeto.horasPorDia.positivo}")
     private int horasPorDia;
 
-    // Getters e Setters
+    @NotNull(message = "{projeto.anosExperiencia.obrigatorio}")
+    @Positive(message = "{projeto.anosExperiencia.positivo}")
+    private int anosExperiencia;
+
+    @Positive(message = "{projeto.diasVctoFatura.positivo}")
+    private int diasVctoFatura;
+
+
     public UUID getIdProjeto() {
         return idProjeto;
     }
@@ -129,6 +136,22 @@ public class ProjetoDTO {
 
     public void setHorasPorDia(int horasPorDia) {
         this.horasPorDia = horasPorDia;
+    }
+
+    public int getAnosExperiencia() {
+        return anosExperiencia;
+    }
+
+    public void setAnosExperiencia(int anosExperiencia) {
+        this.anosExperiencia = anosExperiencia;
+    }
+
+    public int getDiasVctoFatura() {
+        return diasVctoFatura;
+    }
+
+    public void setDiasVctoFatura(int diasVctoFatura) {
+        this.diasVctoFatura = diasVctoFatura;
     }
 
 }

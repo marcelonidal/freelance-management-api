@@ -18,14 +18,18 @@ import java.util.stream.Collectors;
 @Service
 public class AgendaFreelanceService {
 
-    @Autowired
-    private AgendaFreelanceRepository agendaFreelanceRepository;
+    private final AgendaFreelanceRepository agendaFreelanceRepository;
+    private final FreelanceRepository freelanceRepository;
+    private final ProjetoRepository projetoRepository;
 
     @Autowired
-    private FreelanceRepository freelanceRepository;
-
-    @Autowired
-    private ProjetoRepository projetoRepository;
+    public AgendaFreelanceService(AgendaFreelanceRepository agendaFreelanceRepository,
+                                  FreelanceRepository freelanceRepository,
+                                  ProjetoRepository projetoRepository) {
+        this.agendaFreelanceRepository = agendaFreelanceRepository;
+        this.freelanceRepository = freelanceRepository;
+        this.projetoRepository = projetoRepository;
+    }
 
     public List<AgendaFreelanceDTO> listar() {
         return agendaFreelanceRepository.findAll().stream()

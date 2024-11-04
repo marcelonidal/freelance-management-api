@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/fatura")
@@ -43,7 +44,7 @@ public class FaturaController {
             @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
     })
     public ResponseEntity<FaturaDTO> buscarFatura(
-            @PathVariable @Parameter(description = "ID da fatura a ser recuperada") Long id) {
+            @PathVariable @Parameter(description = "ID da fatura a ser recuperada") UUID id) {
         Optional<FaturaDTO> fatura = faturaService.buscar(id);
         return fatura.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -70,7 +71,7 @@ public class FaturaController {
             @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
     })
     public ResponseEntity<FaturaDTO> atualizarFatura(
-            @PathVariable @Parameter(description = "ID da fatura a ser atualizada") Long id,
+            @PathVariable @Parameter(description = "ID da fatura a ser atualizada") UUID id,
             @Valid @RequestBody @Parameter(description = "Novos detalhes da fatura") FaturaDTO faturaDTO) {
         FaturaDTO updatedFatura = faturaService.atualizar(id, faturaDTO);
         return ResponseEntity.ok(updatedFatura);
@@ -84,7 +85,7 @@ public class FaturaController {
             @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
     })
     public ResponseEntity<Void> deletarFatura(
-            @PathVariable @Parameter(description = "ID da fatura a ser deletada") Long id) {
+            @PathVariable @Parameter(description = "ID da fatura a ser deletada") UUID id) {
         faturaService.deletar(id);
         return ResponseEntity.noContent().build();
     }

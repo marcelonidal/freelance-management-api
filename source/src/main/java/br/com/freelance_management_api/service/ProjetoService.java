@@ -6,6 +6,7 @@ import br.com.freelance_management_api.repository.ProjetoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,9 +15,14 @@ import java.util.stream.Collectors;
 @Service
 public class ProjetoService {
 
-    @Autowired
-    private ProjetoRepository projetoRepository;
+    private final ProjetoRepository projetoRepository;
 
+    @Autowired
+    public ProjetoService(ProjetoRepository projetoRepository) {
+        this.projetoRepository = projetoRepository;
+    }
+
+    @Transactional
     public List<ProjetoDTO> listar() {
         return projetoRepository.findAll().stream()
                 .map(this::toDTO)
@@ -73,6 +79,8 @@ public class ProjetoService {
         dto.setValorCustoPago(projeto.getValorCustoPago());
         dto.setValorHoraPago(projeto.getValorHoraPago());
         dto.setHorasPorDia(projeto.getHorasPorDia());
+        dto.setAnosExperiencia(projeto.getAnosExperiencia());
+        dto.setDiasVctoFatura(projeto.getDiasVctoFatura());
         return dto;
     }
 
@@ -89,6 +97,8 @@ public class ProjetoService {
         projeto.setValorCustoPago(dto.getValorCustoPago());
         projeto.setValorHoraPago(dto.getValorHoraPago());
         projeto.setHorasPorDia(dto.getHorasPorDia());
+        projeto.setAnosExperiencia(dto.getAnosExperiencia());
+        projeto.setDiasVctoFatura(dto.getDiasVctoFatura());
         return projeto;
     }
 

@@ -16,11 +16,15 @@ import java.util.stream.Collectors;
 @Service
 public class AgendaProjetoService {
 
-    @Autowired
-    private AgendaProjetoRepository agendaProjetoRepository;
+    private final AgendaProjetoRepository agendaProjetoRepository;
+    private final ProjetoRepository projetoRepository;
 
     @Autowired
-    private ProjetoRepository projetoRepository;
+    public AgendaProjetoService(AgendaProjetoRepository agendaProjetoRepository,
+                                ProjetoRepository projetoRepository) {
+        this.agendaProjetoRepository = agendaProjetoRepository;
+        this.projetoRepository = projetoRepository;
+    }
 
     public List<AgendaProjetoDTO> listar() {
         return agendaProjetoRepository.findAll().stream()

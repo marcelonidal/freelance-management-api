@@ -17,7 +17,7 @@ public class Projeto {
     private String tempoEmHoras;
     private String empresaContratanteProjeto;
     private String paisProjeto;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "projeto_tecnologias", joinColumns = @JoinColumn(name = "projeto_id"))
     @Column(name = "tecnologia")
     private Set<String> tecnologias = new HashSet<>();
@@ -26,12 +26,14 @@ public class Projeto {
     private Double valorCustoPago;
     private Double valorHoraPago;
     private int horasPorDia;
+    private int anosExperiencia;
+    private int diasVctoFatura;
 
     public Projeto() {
     }
 
-    public Projeto(UUID idProjeto, String nomeProjeto, String tempoEmHoras, String empresaContratanteProjeto, String paisProjeto, Set<String> tecnologias,
-                   String emailContato, Boolean cobreCustoFreelance, Double valorCustoPago, Double valorHoraPago, int horasPorDia) {
+    public Projeto(UUID idProjeto, String nomeProjeto, String tempoEmHoras, String empresaContratanteProjeto, String paisProjeto, Set<String> tecnologias, String emailContato,
+                   Boolean cobreCustoFreelance, Double valorCustoPago, Double valorHoraPago, int horasPorDia, int anosExperiencia, int diasVctoFatura) {
         this.idProjeto = idProjeto;
         this.nomeProjeto = nomeProjeto;
         this.tempoEmHoras = tempoEmHoras;
@@ -43,6 +45,8 @@ public class Projeto {
         this.valorCustoPago = valorCustoPago;
         this.valorHoraPago = valorHoraPago;
         this.horasPorDia = horasPorDia;
+        this.anosExperiencia = anosExperiencia;
+        this.diasVctoFatura = diasVctoFatura;
     }
 
     public UUID getIdProjeto() {
@@ -133,6 +137,22 @@ public class Projeto {
         this.horasPorDia = horasPorDia;
     }
 
+    public int getAnosExperiencia() {
+        return anosExperiencia;
+    }
+
+    public void setAnosExperiencia(int anosExperiencia) {
+        this.anosExperiencia = anosExperiencia;
+    }
+
+    public int getDiasVctoFatura() {
+        return diasVctoFatura;
+    }
+
+    public void setDiasVctoFatura(int diasVctoFatura) {
+        this.diasVctoFatura = diasVctoFatura;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -160,6 +180,8 @@ public class Projeto {
                 ", valorCustoPago=" + valorCustoPago +
                 ", valorHoraPago=" + valorHoraPago +
                 ", horasPorDia=" + horasPorDia +
+                ", anosExperiencia=" + anosExperiencia +
+                ", diasVctoFatura=" + diasVctoFatura +
                 '}';
     }
 

@@ -1,12 +1,8 @@
 package br.com.freelance_management_api.dto;
 
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 public class ContratoDTO {
@@ -14,19 +10,18 @@ public class ContratoDTO {
     private UUID idContrato;
 
     @NotNull(message = "{contrato.freelance.obrigatorio}")
-    private FreelanceDTO freelance;
+    private UUID idFreelance;
 
     @NotNull(message = "{contrato.projeto.obrigatorio}")
-    private ProjetoDTO projeto;
+    private UUID idProjeto;
 
     @NotNull(message = "{contrato.dataInicioContrato.obrigatoria}")
     private LocalDate dataInicioContrato;
 
     @NotNull(message = "{contrato.dataFimContrato.obrigatoria}")
-    private LocalDate dateFimContrato;
+    private LocalDate dataFimContrato;
     private String emailStatus;
 
-    // Getters e Setters
     public UUID getIdContrato() {
         return idContrato;
     }
@@ -35,20 +30,20 @@ public class ContratoDTO {
         this.idContrato = idContrato;
     }
 
-    public FreelanceDTO getFreelance() {
-        return freelance;
+    public @NotNull(message = "{contrato.freelance.obrigatorio}") UUID getIdFreelance() {
+        return idFreelance;
     }
 
-    public void setFreelance(FreelanceDTO freelance) {
-        this.freelance = freelance;
+    public void setIdFreelance(@NotNull(message = "{contrato.freelance.obrigatorio}") UUID idFreelance) {
+        this.idFreelance = idFreelance;
     }
 
-    public ProjetoDTO getProjeto() {
-        return projeto;
+    public @NotNull(message = "{contrato.projeto.obrigatorio}") UUID getIdProjeto() {
+        return idProjeto;
     }
 
-    public void setProjeto(ProjetoDTO projeto) {
-        this.projeto = projeto;
+    public void setIdProjeto(@NotNull(message = "{contrato.projeto.obrigatorio}") UUID idProjeto) {
+        this.idProjeto = idProjeto;
     }
 
     public LocalDate getDataInicioContrato() {
@@ -59,12 +54,12 @@ public class ContratoDTO {
         this.dataInicioContrato = dataInicioContrato;
     }
 
-    public LocalDate getDateFimContrato() {
-        return dateFimContrato;
+    public LocalDate getDataFimContrato() {
+        return dataFimContrato;
     }
 
-    public void setDateFimContrato(LocalDate dateFimContrato) {
-        this.dateFimContrato = dateFimContrato;
+    public void setDataFimContrato(LocalDate dataFimContrato) {
+        this.dataFimContrato = dataFimContrato;
     }
 
     public String getEmailStatus() {
@@ -73,17 +68,6 @@ public class ContratoDTO {
 
     public void setEmailStatus(String emailStatus) {
         this.emailStatus = emailStatus;
-    }
-
-    public boolean isTecnologiasValidas() {
-        if (freelance == null || projeto == null) {
-            return false;
-        }
-
-        Set<String> freelanceTecnologias = new HashSet<>(freelance.getTecnologias());
-        Set<String> projetoTecnologias = new HashSet<>(projeto.getTecnologias());
-
-        return freelanceTecnologias.containsAll(projetoTecnologias);
     }
 
 }

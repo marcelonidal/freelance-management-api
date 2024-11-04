@@ -11,11 +11,15 @@ import java.util.UUID;
 @Service
 public class DisponibilidadeService {
 
-    @Autowired
-    private AgendaFreelanceRepository agendaFreelanceRepository;
+    private final AgendaFreelanceRepository agendaFreelanceRepository;
+    private final AgendaProjetoRepository agendaProjetoRepository;
 
     @Autowired
-    private AgendaProjetoRepository agendaProjetoRepository;
+    public DisponibilidadeService(AgendaFreelanceRepository agendaFreelanceRepository,
+                                  AgendaProjetoRepository agendaProjetoRepository) {
+        this.agendaFreelanceRepository = agendaFreelanceRepository;
+        this.agendaProjetoRepository = agendaProjetoRepository;
+    }
 
     public boolean isFreelanceDisponivel(UUID freelanceId, LocalDate dataInicio, LocalDate dataFim) {
         return agendaFreelanceRepository

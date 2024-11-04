@@ -1,5 +1,6 @@
 package br.com.freelance_management_api.dto;
 
+import br.com.freelance_management_api.entities.StatusFatura;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
@@ -14,7 +15,7 @@ public class FaturaDTO {
     private Double valor;
 
     @NotNull(message = "{fatura.status.obrigatorio}")
-    private String status;
+    private StatusFatura status;
 
     @NotNull(message = "{fatura.dataEmissao.obrigatoria}")
     private LocalDate dataEmissao;
@@ -23,13 +24,13 @@ public class FaturaDTO {
     private LocalDate dataVencimento;
 
     @NotNull(message = "{fatura.projeto.obrigatorio}")
-    private ProjetoDTO projeto;
+    private UUID idProjeto;
 
     @NotNull(message = "{fatura.freelance.obrigatorio}")
-    private FreelanceDTO freelance;
+    private UUID idFreelance;
+
     private String emailStatus;
 
-    // Getters and Setters
     public UUID getId() {
         return id;
     }
@@ -46,11 +47,11 @@ public class FaturaDTO {
         this.valor = valor;
     }
 
-    public String getStatus() {
+    public StatusFatura getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusFatura status) {
         this.status = status;
     }
 
@@ -70,20 +71,20 @@ public class FaturaDTO {
         this.dataVencimento = dataVencimento;
     }
 
-    public ProjetoDTO getProjeto() {
-        return projeto;
+    public UUID getIdProjeto() {
+        return idProjeto;
     }
 
-    public void setProjeto(ProjetoDTO projeto) {
-        this.projeto = projeto;
+    public void setIdProjeto(UUID idProjeto) {
+        this.idProjeto = idProjeto;
     }
 
-    public FreelanceDTO getFreelance() {
-        return freelance;
+    public UUID getIdFreelance() {
+        return idFreelance;
     }
 
-    public void setFreelance(FreelanceDTO freelance) {
-        this.freelance = freelance;
+    public void setIdFreelance(UUID idFreelance) {
+        this.idFreelance = idFreelance;
     }
 
     public String getEmailStatus() {

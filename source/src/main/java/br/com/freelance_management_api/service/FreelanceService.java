@@ -6,6 +6,7 @@ import br.com.freelance_management_api.repository.FreelanceRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,9 +15,14 @@ import java.util.stream.Collectors;
 @Service
 public class FreelanceService {
 
-    @Autowired
-    private FreelanceRepository freelanceRepository;
+    private final FreelanceRepository freelanceRepository;
 
+    @Autowired
+    public FreelanceService(FreelanceRepository freelanceRepository) {
+        this.freelanceRepository = freelanceRepository;
+    }
+
+    @Transactional
     public List<FreelanceDTO> listar() {
         return freelanceRepository.findAll().stream()
                 .map(this::toDTO)
